@@ -3,8 +3,7 @@
 
 import abc
 
-class Soldier(abc.ABC):
-    
+class Soldier(abc.ABC):  
     _number = 0
     
     @abc.abstractmethod
