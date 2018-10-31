@@ -11,8 +11,6 @@ class SingletonClass:
     
     def __init__(self):
         self.foo = "hello world"
-
-class Foo:
         
 
 def main():
