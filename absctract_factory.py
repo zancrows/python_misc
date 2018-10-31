@@ -25,7 +25,6 @@ class MilitaryBuilding(abc.ABC):
 
 
 class Soldier(abc.ABC):
-    
     _number = 0
     
     @abc.abstractmethod
