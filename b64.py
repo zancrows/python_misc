@@ -4,12 +4,10 @@
 import sys
 import getopt
 
-from collections import Counter
-
 """
     Very simple implementation of base64 encode/decode
 """
-b64_bin_to_char = {
+b64_bin_get_char = {
     "000000": "A", "010001": "R", "100010": "i", "110011": "z",
     "000001": "B", "010010": "S", "100011": "j", "110100": "0",
     "000010": "C", "010011": "T", "100100": "k", "110101": "1",
@@ -28,7 +26,7 @@ b64_bin_to_char = {
     "001111": "P", "100000": "g", "110001": "x",
     "010000": "Q", "100001": "h", "110010": "y"}
 
-b64_char_to_bin = {val: key for key, val in b64_bin_to_char.items()}
+b64_char_get_bin = {val: key for key, val in b64_bin_get_char.items()}
 complement = {0: '', 2: "=", 4: "=="}
 
 def main(argv) -> None:
@@ -45,9 +43,8 @@ def main(argv) -> None:
 
 def b64_encode(string:str) -> str:
     binary = ''.join([f"{ord(c):08b}" for c in string])
-
     pad, binary = _padding(binary)
-    print(binary)
+    
     return _encode(binary, pad)
 
 def _padding(string:str) -> tuple:
@@ -55,27 +52,30 @@ def _padding(string:str) -> tuple:
     while len(string) % 6 != 0:
         i += 1
         string += "0"
+        
     return i, string
 
 def _encode(binary:str, pad:int) -> str:
-
     string_b64 = ""
     while len(binary) != 0:
         binary_temp, binary = binary[:6], binary[6:]
-        string_b64 += b64_bin_to_char.get(binary_temp)
+        string_b64 += b64_bin_get_char.get(binary_temp)
     string_b64 += complement.get(pad)
+    
     return string_b64
 
 def b64_decode(string_b64:str) -> str:
-    string_b64 = string_b64[:-Counter(string_b64)["="]]
+    binary_b64 = "".join([b64_char_get_bin.get(c) for c in string_b64])
 
-    binary_b64 = "".join([b64_char_to_bin.get(c) for c in string_b64])
+    return _decode(binary_b64)
 
-    return _decode(string_b64)
-
-def _decode(binary_b64):
+def _decode(binary_b64:str) -> str:
     string = ""
-    # TODO
+    while len(binary_b64) != 0:
+        binary_temp, binary_b64 = binary_b64[:8], binary_b64[8:]
+        if len(binary_temp) == 8:
+            string += chr(int(binary_temp, 2))
+            
     return string
 
 if __name__ == "__main__":
