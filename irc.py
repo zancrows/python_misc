@@ -27,7 +27,7 @@ class MySocketIRC:
         len_request = 0
         if len(msg) > len_request:
             print(f'send: {msg}')
-            msg 
+            # msg 
             try:
                 bmsg = bytes(msg+'\r\n', 'utf-8')
                 self.sock.send(bmsg)
