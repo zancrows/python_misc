@@ -50,7 +50,7 @@ class MySocketIRC:
 ###############################################################################
 
 sock = MySocketIRC()
-sock.connect('irc.root-me.org', 6667)
+sock.connect('', 6667)
 sock.auth('zancrows')
 
 while True:
